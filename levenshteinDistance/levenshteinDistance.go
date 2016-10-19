@@ -1,7 +1,7 @@
 package lDistance
 
 import (
-	"fmt";
+	
 )
 
 type TwoWords struct {
@@ -9,22 +9,23 @@ type TwoWords struct {
 	w1length, w2length int
 }
 
-
 var (
 	words TwoWords
 	matrix []int
 )
 
-func Printl() {
-	fmt.Println("aaah?")
+func buildTwoWords(word1, word2 string) TwoWords {
+
+	return TwoWords{[]byte(word1), []byte(word2), len(word1), len(word2)}
 }
 
-func initGlobals(word1, word2 string) {
-	words = TwoWords{[]byte(word1), []byte(word2), len(word1), len(word2)}	
-	matrix = make([]int, (words.w1length+1)*(words.w2length+1))
+func buildMatrix(word1, word2 string) []int {
+
+	return make([]int, (len(word1)+1)*(len(word2)+1))
 }
 
 func min2(a, b int) int {
+
 	if a < b {
 		return a
 	} 
@@ -32,18 +33,22 @@ func min2(a, b int) int {
 }
 
 func min3(a, b, c int) int {
+
 	return min2(min2(a, b), c)
 }
 
 func xyToxByRows(currCol, currRow, nCols int) int {
+
 	return nCols*(currRow)+currCol
 }
 
 func xyToxByColumns(currCol, currRow, nRows int) int {
+
 	return nRows*(currCol)+currRow
 }
 
 func boolToInt(b bool) int {
+
 	if b {
 		return 1
 	}
@@ -51,14 +56,17 @@ func boolToInt(b bool) int {
 }
 
 func Recursive(word1, word2 string) int {
-	initGlobals(word1, word2)
+
+	words = buildTwoWords(word1, word2)
+	matrix = buildMatrix(word1, word2)
 
 	return runRecursive(words.w2length, words.w1length)
 }
 
 func runRecursive(x, y int) int {
-	columns := words.w2length + 1
 
+	columns := words.w2length + 1
+	
 	if cell := matrix[xyToxByRows(x, y, columns)]; cell != 0 {
 		return cell
 	}
@@ -81,7 +89,9 @@ func runRecursive(x, y int) int {
 } 
 
 func Iterative(word1, word2 string) int {
-	initGlobals(word1, word2)
+
+	words = buildTwoWords(word1, word2)
+	matrix = buildMatrix(word1, word2)
 	columns := words.w2length + 1
 
 	// Fill the left (N0) column with {0, 1, 2, ...}
@@ -104,6 +114,7 @@ func Iterative(word1, word2 string) int {
 }
 
 func countMatrixCell(x, y, columns int) int {
+
 	var condition = boolToInt(words.word1[y - 1] != words.word2[x - 1])
 
 	return min3(matrix[xyToxByRows(x - 1, y, columns)] + 1,
@@ -111,9 +122,4 @@ func countMatrixCell(x, y, columns int) int {
 		matrix[xyToxByRows(x - 1, y - 1, columns)] + condition,
 		)
 }
-
-
-
-
-
 
