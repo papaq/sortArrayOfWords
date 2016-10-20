@@ -1,11 +1,7 @@
 package lDistance
 
-import (
-	
-)
-
 type TwoWords struct {
-	word1, word2	[]byte
+	word1, word2 []byte
 	w1length, w2length int
 }
 

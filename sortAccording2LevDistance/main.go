@@ -1,18 +1,25 @@
 package main
 
 import (
-	"fmt"
-	"github.com/papaq/sortArrayOfWords/levenshteinDistance"
+	"github.com/papaq/sortArrayOfWords/inAndOut"
+	"github.com/papaq/sortArrayOfWords/sorting"
 )
 
 func main() {
-	fmt.Println("HI!\n")
 
-	word1, word2 := "kitten", "cat"
-	distance := lDistance.Recursive(word1, word2)
-	fmt.Println("Recursive distance between", word1, "and", word2, "is:", distance)
+	defword := "slovakia"
+	file := "countries.txt"
+	wordsToSort := iao.ReadFile(file)
+	sorting.SetWords(wordsToSort)
 
-	//distance = lDistance.Iterative(word1, word2)
-	//fmt.Println("Iterative distance between", word1, "and", word2, "is:", distance)
-	
+	iao.LineToConsole("Sorted list of words according to Levenshtein distance to \"" +
+		defword + "\":")
+
+	sorting.Sort(defword)
+
+	sortedWordsInfo := sorting.GetWords()
+
+	for _, wordInfo := range sortedWordsInfo {
+		iao.WordInfoToConsole(wordInfo.Word, wordInfo.Distance)
+	}
 }
